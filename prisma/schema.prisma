@@ -9,3 +9,23 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id  Int @id @default(autoincrement())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  email String  @unique
+  hashPassword  String
+  tasks Task[]
+}
+
+model Task {
+  id  Int @id @default(autoincrement())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  title String
+  description String?
+  userId  Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
