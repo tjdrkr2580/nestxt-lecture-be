@@ -20,4 +20,31 @@ export class AuthController {
   signUp(@Body() dto: AuthDto): Promise<Msg> {
     return this.authservice.signUp(dto);
   }
+  @HttpCode(HttpStatus.OK)
+  @Post('login')
+  async login(@Body() dto: AuthDto, @Res({ passthrough: true }) res: Response) {
+    const jwt = await this.authservice.login(dto);
+    res.cookie('access_token', jwt.accessToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'none',
+      path: '/',
+    });
+    return {
+      message: 'ok',
+    };
+  }
+  @HttpCode(HttpStatus.OK)
+  @Post('/logout')
+  logout(@Req() dto: AuthDto, @Res({ passthrough: true }) res: Response): Msg {
+    res.cookie('access_token', '', {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'none',
+      path: '/',
+    });
+    return {
+      message: 'ok',
+    };
+  }
 }
