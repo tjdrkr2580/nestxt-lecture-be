@@ -57,4 +57,21 @@ export class TodoService {
       },
     });
   }
+
+  async deleteTaskById(userId: number, taskId: number): Promise<void> {
+    const task = await this.prisma.task.findUnique({
+      where: {
+        id: taskId,
+      },
+    });
+
+    if (!task || task.userId !== userId)
+      throw new ForbiddenException('No permistion to delete');
+
+    await this.prisma.task.delete({
+      where: {
+        id: taskId,
+      },
+    });
+  }
 }
