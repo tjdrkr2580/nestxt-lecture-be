@@ -16,6 +16,7 @@ export class TodoService {
       },
     });
   }
+
   getTaskById(userId: number, taskId: number): Promise<Task> {
     return this.prisma.task.findFirst({
       where: {

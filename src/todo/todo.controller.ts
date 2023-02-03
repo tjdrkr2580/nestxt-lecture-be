@@ -10,7 +10,6 @@ import {
   UseGuards,
   Req,
 } from '@nestjs/common';
-
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { TodoService } from './todo.service';
